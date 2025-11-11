@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  sqlserver:
+    container_name: "SqlServerContainer"
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: ${SA_PASSWORD}
+      ACCEPT_EULA: "Y"
+    ports:
+      - "4545:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+    networks:
+      - app-network
+    restart: always
+
+  myapi:
+    build:
+      context: .
+      target: ${STAGE}
+      dockerfile: Dockerfile
+    image: fernadombc/dockerapi-myapi:lion
+    container_name: MyApiContainer
+    ports:
+      - "5555:8080"
+    depends_on:
+      - sqlserver
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=Store;User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;
+    networks:
+      - app-network
+
+
+volumes:
+  sql_data:
+    external: false
+networks:
+  app-network:
+    driver: bridge
+
