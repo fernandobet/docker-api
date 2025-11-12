@@ -27,6 +27,15 @@ jobs:
         echo "Iniciando login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "Finalizando login"
+
+    - name: Build docker image
+      run: |
+        docker build -t fernandombc/dockerapi-private:0.0.1 .
+
+    - name: Push docker image
+      run: |
+        docker push fernandombc/dockerapi-private:0.0.1 .
+        
           
 #    - uses: actions/checkout@v4
 #   - name: Build the Docker image
