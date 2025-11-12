@@ -30,23 +30,25 @@ jobs:
     - name: Docker login
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        NEW_VERSION: ${{ steps.id-step.outputs.version }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}        
       run: |
         echo "Iniciando login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "Finalizando login"
-        echo "New version: $NEW_VERSION !!!!! "
 
-#    - name: Build docker image
-#      run: |
-#        docker build -t fernandombc/dockerapi-private:0.0.1 .
-#        docker build -t fernandombc/dockerapi-private .
+    - name: Build docker image
+      env:
+        NEW_VERSION: ${{ steps.id-step.outputs.version }}
+      run: |
+        docker build -t fernandombc/dockerapi-private:$NEW_VERSION .
+        docker build -t fernandombc/dockerapi-private .
         
-#    - name: Push docker image
-#      run: |
-#        docker push fernandombc/dockerapi-private:0.0.1
-#        docker push fernandombc/dockerapi-private
+    - name: Push docker image
+      env:
+        NEW_VERSION: ${{ steps.id-step.outputs.version }}
+      run: |
+        docker push fernandombc/dockerapi-private:$NEW_VERSION
+        docker push fernandombc/dockerapi-private
         
           
 #    - uses: actions/checkout@v4
