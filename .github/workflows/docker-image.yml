@@ -31,10 +31,12 @@ jobs:
     - name: Build docker image
       run: |
         docker build -t fernandombc/dockerapi-private:0.0.1 .
-
+        docker build -t fernandombc/dockerapi-private .
+        
     - name: Push docker image
       run: |
-        docker push fernandombc/dockerapi-private:0.0.1 
+        docker push fernandombc/dockerapi-private:0.0.1
+        docker push fernandombc/dockerapi-private
         
           
 #    - uses: actions/checkout@v4
