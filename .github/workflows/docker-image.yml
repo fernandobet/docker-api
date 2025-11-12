@@ -34,7 +34,7 @@ jobs:
 
     - name: Push docker image
       run: |
-        docker push fernandombc/dockerapi-private:0.0.1 .
+        docker push fernandombc/dockerapi-private:0.0.1 
         
           
 #    - uses: actions/checkout@v4
